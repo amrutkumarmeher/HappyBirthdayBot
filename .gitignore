@@ -7,6 +7,9 @@
 # BlueJ files
 *.ctxt
 
+# Rough & Testing files
+*rough*
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -15,6 +18,7 @@
 *.war
 *.nar
 *.ear
+.vscode
 *.zip
 *.tar.gz
 *.rar
