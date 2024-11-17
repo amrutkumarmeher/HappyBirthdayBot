@@ -12,7 +12,7 @@ public class SendWish {
     }
     public static void sendNotification(String title,String msg){
         SystemTray trayZone = SystemTray.getSystemTray();
-        Image img = Toolkit.getDefaultToolkit().getImage("img.png");
+        Image img = Toolkit.getDefaultToolkit().getImage("..\\Imgs\\img.png");
         TrayIcon notifi = new TrayIcon(img,"wish");
         notifi.setImageAutoSize(true);
         try {

@@ -1,6 +1,14 @@
 // this class is main runner class used to run the entire project.
+
+import java.awt.Graphics;
+
+import javax.swing.JFrame;
+
 public class Bot {
     public static void main(String[] args) {
-        System.out.println(CheckBirthday.checkIfBirthday("3/29","..\\DataBase\\DatesReal.csv"));
+        CSV csv = new CSV();
+        csv.from_File("..\\DataBase\\Birthdays.csv");
+        System.out.println(csv.returnRows());
+        // System.out.println(csv);
     }
 }
