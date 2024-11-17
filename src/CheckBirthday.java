@@ -131,8 +131,8 @@ Govt. Polytechnic, Bargarh
     }
 
     public static void main(String []args){
-        CSV allNames = getAllNames("Birthdays.csv");
-        ArrayList<ArrayList<String>> nameDates = checkIfBirthday("8/18","Birthdays.csv");
+        CSV allNames = getAllNames("..\\DataBase\\Birthdays.csv");
+        ArrayList<ArrayList<String>> nameDates = checkIfBirthday("8/18","..\\DataBase\\Birthdays.csv");
         for(int i = 0 ; i<nameDates.get(0).size();i++){
             int indx = allNames.readCol(0).indexOf(nameDates.get(0).get(i));
             allNames.removeRow(indx);
