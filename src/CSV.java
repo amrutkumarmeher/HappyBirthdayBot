@@ -194,6 +194,10 @@ class CSV {
         }
     }
 
+    public int size(){
+        return table.size()-1;
+    }
+
     public String[][] returnRows(){
         String [][] rows = new String[table.size()-1][4];
         for(int i =1;i<table.size();i++){

@@ -1,53 +1,74 @@
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
-class ButtonsPanel extends JPanel {
+class ButtonsPanel extends JPanel implements ActionListener {
+    private String dbpath;
     private ImageIcon ButtonsPanelIco;
     private JButton add;
     private JButton delete;
     private JButton edit;
     private JButton check;
 
-    ButtonsPanel(String buttonsBarBackground) {
+    ButtonsPanel(String buttonsBarBackground, String dbpath) {
+        this.dbpath = dbpath;
         Image img = Toolkit.getDefaultToolkit().getImage(buttonsBarBackground).getScaledInstance(200, 460, 0);
         this.ButtonsPanelIco = new ImageIcon(img);
         JLabel bg = new JLabel(this.ButtonsPanelIco);
         bg.setBounds(0, 0, 200, 460);
         add = new JButton("ADD");
+        add.addActionListener(this);
         delete = new JButton("DELETE");
+        delete.addActionListener(this);
         edit = new JButton("EDIT");
+        edit.addActionListener(this);
         check = new JButton("CHECK");
+        check.addActionListener(this);
         add.setFocusable(false);
-        add.setBounds(40, 60, 120,45);
+        add.setBounds(40, 60, 120, 45);
         delete.setFocusable(false);
-        delete.setBounds(40, 165, 120,45);
+        delete.setBounds(40, 165, 120, 45);
         edit.setFocusable(false);
-        edit.setBounds(40, 270, 120,45);
+        edit.setBounds(40, 270, 120, 45);
         check.setFocusable(false);
-        check.setBounds(40, 375, 120,45);
+        check.setBounds(40, 375, 120, 45);
         this.setLayout(null);
         this.add(add);
         this.add(delete);
         this.add(edit);
         this.add(check);
     }
-    
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(add)) {
+            Editor ed = new Editor(dbpath);
+        } else if (e.getSource().equals(delete)) {
+            Deleting del = new Deleting(dbpath);
+        } else if (e.getSource().equals(edit)) {
+            // this needs to code
+        } else if (e.getSource().equals(check)){
+            // this needs to code
+        }
+    }
+
     @Override
     public void paint(Graphics g) {
         Graphics2D G = (Graphics2D) g;
@@ -69,7 +90,7 @@ public class MainPanel extends JLayeredPane {
         this.signY = signY;
         this.background = new ImageIcon(BackgroundPath);
         this.DataBasePath = databasePath;
-        this.Buttons = new ButtonsPanel(buttonPanelIco);
+        this.Buttons = new ButtonsPanel(buttonPanelIco, databasePath);
     }
 
     public void paint(Graphics g) {
