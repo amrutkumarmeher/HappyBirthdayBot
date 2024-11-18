@@ -1,3 +1,4 @@
+
 // this class is DataBase Management System(DBMS) used to manage & parse CSV file.
 import java.util.ArrayList;
 import java.io.File;
@@ -194,23 +195,23 @@ class CSV {
         }
     }
 
-    public int size(){
-        return table.size()-1;
+    public int size() {
+        return table.size() - 1;
     }
 
-    public String[][] returnRows(){
-        String [][] rows = new String[table.size()-1][4];
-        for(int i =1;i<table.size();i++){
-            rows[i-1][0] = this.readCell(i, 0);
-            rows[i-1][1] = this.readCell(i, 1);
-            rows[i-1][2] = this.readCell(i, 2);
-            rows[i-1][3] = this.readCell(i, 3);
+    public String[][] returnRows() {
+        String[][] rows = new String[table.size() - 1][4];
+        for (int i = 1; i < table.size(); i++) {
+            rows[i - 1][0] = this.readCell(i, 0);
+            rows[i - 1][1] = this.readCell(i, 1);
+            rows[i - 1][2] = this.readCell(i, 2);
+            rows[i - 1][3] = this.readCell(i, 3);
         }
         return rows;
     }
 
-    public String[] returnColumns(){
-        String [] cols = {this.readCell(0, 0),this.readCell(0, 1),this.readCell(0, 2),this.readCell(0, 3)};
+    public String[] returnColumns() {
+        String[] cols = { this.readCell(0, 0), this.readCell(0, 1), this.readCell(0, 2), this.readCell(0, 3) };
         return cols;
     }
 

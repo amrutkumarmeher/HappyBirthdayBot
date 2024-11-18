@@ -1,7 +1,9 @@
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,17 +20,22 @@ import java.awt.event.ActionListener;
 
 class ButtonsPanel extends JPanel implements ActionListener {
     private String dbpath;
+    private MainPanel bossPane;
     private ImageIcon ButtonsPanelIco;
+    private JLabel bg;
     private JButton add;
     private JButton delete;
     private JButton edit;
     private JButton check;
+    private MainFrame par;
 
-    ButtonsPanel(String buttonsBarBackground, String dbpath) {
+    ButtonsPanel(String buttonsBarBackground, String dbpath,MainFrame parent,MainPanel boss) {
+        this.bossPane = boss;
+        this.par = parent;
         this.dbpath = dbpath;
         Image img = Toolkit.getDefaultToolkit().getImage(buttonsBarBackground).getScaledInstance(200, 460, 0);
         this.ButtonsPanelIco = new ImageIcon(img);
-        JLabel bg = new JLabel(this.ButtonsPanelIco);
+        bg = new JLabel(this.ButtonsPanelIco);
         bg.setBounds(0, 0, 200, 460);
         add = new JButton("ADD");
         add.addActionListener(this);
@@ -51,30 +58,33 @@ class ButtonsPanel extends JPanel implements ActionListener {
         this.add(delete);
         this.add(edit);
         this.add(check);
+        this.add(bg);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(add)) {
-            Editor ed = new Editor(dbpath);
+            Editor ed = new Editor(dbpath,this.par);
         } else if (e.getSource().equals(delete)) {
-            Deleting del = new Deleting(dbpath);
+            Deleting del = new Deleting(dbpath,this.par);
         } else if (e.getSource().equals(edit)) {
-            // this needs to code
+            String [] selectRow = bossPane.returnSelect();
+            if(selectRow!=null){
+                Editor ed = new Editor(selectRow[0], selectRow[1], selectRow[2], selectRow[3],Integer.parseInt(selectRow[4]), dbpath, par);
+            } else {
+                JOptionPane.showMessageDialog(null, "Select a record!", "No record selected", JOptionPane.WARNING_MESSAGE);
+            }
+            // Editor ed = new Editor("name","D.O.B", "phone","email", dbpath, par);
         } else if (e.getSource().equals(check)){
-            // this needs to code
+            CheckBirthday.main();
+            JOptionPane.showMessageDialog(null, "Checking successful","Birthday Check", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D G = (Graphics2D) g;
-        G.drawImage(ButtonsPanelIco.getImage(), 0, 0, null);
     }
 }
 
 public class MainPanel extends JLayeredPane {
     private ImageIcon background;
+    private JTable listRec;
     private JPanel UI;
     private ButtonsPanel Buttons;
     private JScrollPane listRecPan;
@@ -82,12 +92,12 @@ public class MainPanel extends JLayeredPane {
     private int signY;
     private String DataBasePath;
 
-    MainPanel(String BackgroundPath, String buttonPanelIco, int signX, int signY, String databasePath) {
+    MainPanel(String BackgroundPath, String buttonPanelIco, int signX, int signY, String databasePath,MainFrame parent) {
         this.signX = signX;
         this.signY = signY;
         this.background = new ImageIcon(BackgroundPath);
         this.DataBasePath = databasePath;
-        this.Buttons = new ButtonsPanel(buttonPanelIco, databasePath);
+        this.Buttons = new ButtonsPanel(buttonPanelIco, databasePath,parent,this);
     }
 
     public void paint(Graphics g) {
@@ -104,11 +114,24 @@ public class MainPanel extends JLayeredPane {
         G.drawString("Govt. Polytechnic Bargarh", this.signX, this.signY + 45);
         this.setUI();
     }
-
+    public String[] returnSelect(){
+        if(listRec.getSelectedRow()!=-1){
+            CSV database = new CSV();
+        database.from_File(this.DataBasePath);
+            String[] result = {database.readCell(listRec.getSelectedRow()+1,0),
+                database.readCell(listRec.getSelectedRow()+1,1),
+                database.readCell(listRec.getSelectedRow()+1,2),
+                database.readCell(listRec.getSelectedRow()+1,3),""+listRec.getSelectedRow()};
+            return result;
+        }else {
+            return null;
+        }
+    }
     public void setUI() {
         CSV database = new CSV();
         database.from_File(this.DataBasePath);
-        JTable listRec = new JTable(new DefaultTableModel(database.returnRows(), database.returnColumns()) {
+        
+        this.listRec = new JTable(new DefaultTableModel(database.returnRows(), database.returnColumns()) {
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;

@@ -176,9 +176,10 @@ public class CheckBirthday {
             }
         }
     }
-    public static void main(String date,String DataBasePath) {
+
+    public static void main(String date, String DataBasePath) {
         CSV allNames = getAllNames(DataBasePath);
-        ArrayList<ArrayList<String>> nameDates = checkIfBirthday(date,"..\\DataBase\\Birthdays.csv");
+        ArrayList<ArrayList<String>> nameDates = checkIfBirthday(date, "..\\DataBase\\Birthdays.csv");
         for (int i = 0; i < nameDates.get(0).size(); i++) {
             int indx = allNames.readCol(0).indexOf(nameDates.get(0).get(i));
             allNames.removeRow(indx);

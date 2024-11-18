@@ -1,3 +1,4 @@
+
 // This class is a helper class contain some utility functions.
 // Every function or data member should be static here.
 import java.util.Date;
@@ -33,9 +34,9 @@ public class BotHelper {
         }
     }
 
-    public static String rectifyDates(String date){
+    public static String rectifyDates(String date) {
         String MDY[] = date.split("/");
-        return Integer.parseInt(MDY[0]) +"/"+Integer.parseInt(MDY[1]); 
+        return Integer.parseInt(MDY[0]) + "/" + Integer.parseInt(MDY[1]);
     }
 
     public static String getTodayDate() {
